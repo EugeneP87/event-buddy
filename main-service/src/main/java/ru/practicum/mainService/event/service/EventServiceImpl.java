@@ -9,10 +9,7 @@ import ru.practicum.mainService.category.repository.CategoryRepository;
 import ru.practicum.mainService.event.Event;
 import ru.practicum.mainService.event.EventState;
 import ru.practicum.mainService.event.EventStateAction;
-import ru.practicum.mainService.event.dto.EventDto;
-import ru.practicum.mainService.event.dto.NewEventDto;
-import ru.practicum.mainService.event.dto.PartialEventDto;
-import ru.practicum.mainService.event.dto.UpdateEventRequestDto;
+import ru.practicum.mainService.event.dto.*;
 import ru.practicum.mainService.event.mapper.EventMapper;
 import ru.practicum.mainService.event.repository.EventRepository;
 import ru.practicum.mainService.exception.BadRequestException;
@@ -107,49 +104,6 @@ public class EventServiceImpl {
         return eventDto;
     }
 
-    private void updateEventFields(Event event, UpdateEventRequestDto updateEventDto) {
-        if (updateEventDto.getEventDate() != null) {
-            validateEventDate(updateEventDto.getEventDate());
-            event.setEventDate(updateEventDto.getEventDate());
-        }
-        if (updateEventDto.getEventDate() != null) {
-            validateEventDateForAdmin(updateEventDto.getEventDate());
-            event.setEventDate(updateEventDto.getEventDate());
-        }
-        if (updateEventDto.getAnnotation() != null && !updateEventDto.getAnnotation().isBlank()) {
-            event.setAnnotation(updateEventDto.getAnnotation());
-        }
-        if (updateEventDto.getDescription() != null && !updateEventDto.getDescription().isBlank()) {
-            event.setDescription(updateEventDto.getDescription());
-        }
-        if (updateEventDto.getLocation() != null) {
-            Location location = event.getLocation();
-            LocationDto locationDto = updateEventDto.getLocation();
-            Location newLocation = new Location(locationDto.getLat(), locationDto.getLon());
-            location.setLat(newLocation.getLat());
-            location.setLon(newLocation.getLon());
-        }
-        if (updateEventDto.getPaid() != null) {
-            event.setPaid(updateEventDto.getPaid());
-        }
-        if (updateEventDto.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventDto.getParticipantLimit());
-        }
-        if (updateEventDto.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventDto.getRequestModeration());
-        }
-        if (updateEventDto.getTitle() != null && !updateEventDto.getTitle().isBlank()) {
-            event.setTitle(updateEventDto.getTitle());
-        }
-        if (updateEventDto.getCategory() != null) {
-            Category category = getCategoryById(updateEventDto.getCategory());
-            event.setCategory(category);
-        }
-        if (updateEventDto.getStateAction() != null) {
-            updateEventState(event, updateEventDto.getStateAction());
-        }
-    }
-
     public EventDto getCompleteEvent(Long id, HttpServletRequest request) {
         Event event = getEventById(id);
         validateEventStatePublished(event);
@@ -185,13 +139,6 @@ public class EventServiceImpl {
             result.sort(Comparator.comparing(EventDto::getViews));
         }
         return result;
-    }
-
-    private void validateDateRange(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
-        if (rangeStart != null && rangeEnd != null && (rangeEnd.isBefore(LocalDateTime.now()) || rangeStart.isAfter(rangeEnd))) {
-            throw new BadRequestException("Завершение события не может быть позднее настоящего времени, " +
-                    "а начало события не может предшествовать окончанию");
-        }
     }
 
     @Transactional
@@ -245,6 +192,56 @@ public class EventServiceImpl {
         }
         requestRepository.saveAll(requestListUpdateStatus);
         return eventRequestStatusUpdateResult;
+    }
+
+    private void updateEventFields(Event event, UpdateEventRequestDto updateEventDto) {
+        if (updateEventDto.getEventDate() != null) {
+            validateEventDate(updateEventDto.getEventDate());
+            event.setEventDate(updateEventDto.getEventDate());
+        }
+        if (updateEventDto.getEventDate() != null) {
+            validateEventDateForAdmin(updateEventDto.getEventDate());
+            event.setEventDate(updateEventDto.getEventDate());
+        }
+        if (updateEventDto.getAnnotation() != null && !updateEventDto.getAnnotation().isBlank()) {
+            event.setAnnotation(updateEventDto.getAnnotation());
+        }
+        if (updateEventDto.getDescription() != null && !updateEventDto.getDescription().isBlank()) {
+            event.setDescription(updateEventDto.getDescription());
+        }
+        if (updateEventDto.getLocation() != null) {
+            Location location = event.getLocation();
+            LocationDto locationDto = updateEventDto.getLocation();
+            Location newLocation = new Location(locationDto.getLat(), locationDto.getLon());
+            location.setLat(newLocation.getLat());
+            location.setLon(newLocation.getLon());
+        }
+        if (updateEventDto.getPaid() != null) {
+            event.setPaid(updateEventDto.getPaid());
+        }
+        if (updateEventDto.getParticipantLimit() != null) {
+            event.setParticipantLimit(updateEventDto.getParticipantLimit());
+        }
+        if (updateEventDto.getRequestModeration() != null) {
+            event.setRequestModeration(updateEventDto.getRequestModeration());
+        }
+        if (updateEventDto.getTitle() != null && !updateEventDto.getTitle().isBlank()) {
+            event.setTitle(updateEventDto.getTitle());
+        }
+        if (updateEventDto.getCategory() != null) {
+            Category category = getCategoryById(updateEventDto.getCategory());
+            event.setCategory(category);
+        }
+        if (updateEventDto.getStateAction() != null) {
+            updateEventState(event, updateEventDto.getStateAction());
+        }
+    }
+
+    private void validateDateRange(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
+        if (rangeStart != null && rangeEnd != null && (rangeEnd.isBefore(LocalDateTime.now()) || rangeStart.isAfter(rangeEnd))) {
+            throw new BadRequestException("Завершение события не может быть позднее настоящего времени, " +
+                    "а начало события не может предшествовать окончанию");
+        }
     }
 
     private void updateEventResult(EventRequestStatusUpdateResult eventRequestStatusUpdateResult, Request request) {
@@ -333,11 +330,11 @@ public class EventServiceImpl {
         List<Long> eventIds = eventDtos.stream()
                 .map(EventDto::getId)
                 .collect(Collectors.toList());
-        List<Request> confirmedRequests = requestRepository.findAllByEventIdInAndStatus(eventIds, RequestStatus.CONFIRMED);
-        Map<Long, Long> eventIdToConfirmedCount = confirmedRequests.stream()
-                .collect(Collectors.groupingBy(
-                        request -> request.getEvent().getId(),
-                        Collectors.counting()
+        List<ConfirmedRequestCountProjection> confirmedRequestCounts = requestRepository.countConfirmedRequestsByEventIdInAndStatus(eventIds, RequestStatus.CONFIRMED);
+        Map<Long, Long> eventIdToConfirmedCount = confirmedRequestCounts.stream()
+                .collect(Collectors.toMap(
+                        ConfirmedRequestCountProjection::getEventId,
+                        ConfirmedRequestCountProjection::getCount
                 ));
         for (EventDto eventDto : eventDtos) {
             Long confirmedCount = eventIdToConfirmedCount.getOrDefault(eventDto.getId(), 0L);

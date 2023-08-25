@@ -37,45 +37,40 @@ public class PrivateEventController {
     }
 
     @PatchMapping("{eventId}")
-    @ResponseStatus(HttpStatus.OK)
     public EventDto updateEventUser(@PathVariable(name = "userId") @Positive Long userId,
                                     @PathVariable(name = "eventId") @Positive Long eventId,
                                     @Valid @RequestBody UpdateEventRequestDto updateEventUserRequest) {
-        log.info("Обновление события с ID " + eventId);
+        log.info("Обновление события с ID {}", eventId);
         return eventServiceImpl.updateEventUser(userId, eventId, updateEventUserRequest);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<PartialEventDto> getEventsUser(@PathVariable @Positive Long userId,
                                                @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                                @RequestParam(defaultValue = "10") @Positive Integer size) {
-        log.info("Получение событий пользователя " + userId);
+        log.info("Получение событий пользователя с ID {}", userId);
         return eventServiceImpl.getEventUser(userId, from, size);
     }
 
     @GetMapping("{eventId}")
-    @ResponseStatus(HttpStatus.OK)
     public EventDto getUserEventCompleteInfo(@PathVariable(name = "userId") @Positive Long userId,
                                              @PathVariable(name = "eventId") @Positive Long eventId) {
-        log.info("Получение полной информации о событии " + eventId);
+        log.info("Получение полной информации о событии с ID {}", eventId);
         return eventServiceImpl.getUserEventCompleteInfo(userId, eventId);
     }
 
     @GetMapping("{eventId}/requests")
-    @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getAllRequestsByEventId(@PathVariable(name = "userId") @Positive Long userId,
                                                                  @PathVariable(name = "eventId") @Positive Long eventId) {
-        log.info("Получение информации о запросах " + eventId);
+        log.info("Получение информации о запросах события с ID {}", eventId);
         return eventServiceImpl.getAllRequestsByEventId(userId, eventId);
     }
 
     @PatchMapping("{eventId}/requests")
-    @ResponseStatus(HttpStatus.OK)
     public EventRequestStatusUpdateResult changeStatusRequest(@PathVariable(name = "userId") @Positive Long userId,
                                                               @PathVariable(name = "eventId") @Positive Long eventId,
                                                               @RequestBody EventRequestStatusUpdate statusUpdate) {
-        log.info("Изменение статуса заявки " + eventId);
+        log.info("Изменение статуса заявки с ID {}", eventId);
         return eventServiceImpl.changeStatusRequest(userId, eventId, statusUpdate);
     }
 

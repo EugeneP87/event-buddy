@@ -30,17 +30,16 @@ public class AdminCompilationController {
     }
 
     @PatchMapping("{compId}")
-    @ResponseStatus(HttpStatus.OK)
     public CompilationDto updateCompilation(@PathVariable @Positive Long compId,
                                             @Valid @RequestBody UpdateCompilationDto updateCompilationDto) {
-        log.info("Обновление информации о подборке " + compId);
+        log.info("Обновление информации о подборке с ID {}", compId);
         return compilationServiceImpl.updateCompilation(compId, updateCompilationDto);
     }
 
     @DeleteMapping("{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompilation(@PathVariable @Positive Long compId) {
-        log.info("Удаление подборки с ID " + compId);
+        log.info("Удаление подборки с ID {}", compId);
         compilationServiceImpl.deleteCompById(compId);
     }
 

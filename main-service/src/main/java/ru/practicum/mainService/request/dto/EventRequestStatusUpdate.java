@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.mainService.request.RequestStatus;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +13,13 @@ import java.util.List;
 public class EventRequestStatusUpdate {
 
     private RequestStatus status;
-    private List<Long> requestIds;
+    private Set<Long> requestIds;
+
+    public enum Status {
+
+        CONFIRMED,
+        REJECTED
+
+    }
 
 }

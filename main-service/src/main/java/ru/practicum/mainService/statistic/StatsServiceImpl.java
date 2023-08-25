@@ -29,21 +29,21 @@ public class StatsServiceImpl {
     }
 
     public void addView(HttpServletRequest request) {
-        String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        statsClient.addHit(createEndpointHitDto(request, formattedDateTime));
+        statsClient.addHit(createEndpointHitDto(request,
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
     }
 
     public Map<Long, Long> getStatsEvents(List<Event> events) {
         if (events == null || events.isEmpty()) {
             return Collections.emptyMap();
         }
-        List<Long> ids = events.stream()
-                .map(Event::getId)
-                .collect(Collectors.toList());
         LocalDateTime start = events.stream()
                 .map(Event::getCreatedOn)
                 .min(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.now());
+                .orElse(null);
+        List<Long> ids = events.stream()
+                .map(Event::getId)
+                .collect(Collectors.toList());
         String eventsUri = "/events/";
         List<String> uris = ids.stream()
                 .map(id -> eventsUri + id)

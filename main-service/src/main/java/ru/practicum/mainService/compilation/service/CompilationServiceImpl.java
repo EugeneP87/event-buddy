@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainService.compilation.Compilation;
 import ru.practicum.mainService.compilation.dto.CompilationDto;
 import ru.practicum.mainService.compilation.dto.NewCompilationDto;
@@ -18,7 +19,6 @@ import ru.practicum.mainService.exception.NotFoundException;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +42,7 @@ public class CompilationServiceImpl {
         return CompilationMapper.toCompilationDto(compilation, eventsShort);
     }
 
+    @Transactional
     public CompilationDto updateCompilation(Long compId, UpdateCompilationDto updateComp) {
         Compilation compilation = findCompilationById(compId);
         applyCompilationUpdates(compilation, updateComp);
@@ -81,7 +82,7 @@ public class CompilationServiceImpl {
         }
         if (updateComp.getEvents() != null) {
             Set<Event> updatedEvents = eventRepository.findAllByIdIn(updateComp.getEvents());
-            compilation.setEvents(Objects.requireNonNull(updatedEvents));
+            compilation.setEvents(updatedEvents);
         }
     }
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.event.dto.EventDto;
 import ru.practicum.mainService.event.service.EventServiceImpl;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/events")
@@ -45,7 +47,7 @@ public class PublicEventController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public EventDto getCompleteEvent(@PathVariable Long id, HttpServletRequest httpRequest) {
-        log.info("Получение полной информации о событии " + id);
+        log.info("Получение полной информации о событии с ID {}", id);
         return eventServiceImpl.getCompleteEvent(id, httpRequest);
     }
 

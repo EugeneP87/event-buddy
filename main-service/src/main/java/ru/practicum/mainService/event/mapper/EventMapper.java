@@ -1,5 +1,6 @@
 package ru.practicum.mainService.event.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.mainService.category.Category;
 import ru.practicum.mainService.category.mapper.CategoryMapper;
 import ru.practicum.mainService.event.Event;
@@ -13,12 +14,10 @@ import ru.practicum.mainService.user.mapper.UserMapper;
 
 import java.time.LocalDateTime;
 
+@UtilityClass
 public final class EventMapper {
 
-    private EventMapper() {
-    }
-
-    public static EventDto toEventDto(Event event) {
+    public EventDto toEventDto(Event event) {
         return new EventDto(
                 event.getId(),
                 event.getAnnotation(),
@@ -38,7 +37,7 @@ public final class EventMapper {
         );
     }
 
-    public static Event toEvent(NewEventDto newEventDto, Category category, User user) {
+    public Event toEvent(NewEventDto newEventDto, Category category, User user) {
         return new Event(
                 newEventDto.getAnnotation(),
                 category,
@@ -55,7 +54,7 @@ public final class EventMapper {
         );
     }
 
-    public static PartialEventDto toPartialEventDto(Event event) {
+    public PartialEventDto toPartialEventDto(Event event) {
         return new PartialEventDto(
                 event.getId(),
                 event.getAnnotation(),

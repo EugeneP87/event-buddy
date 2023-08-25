@@ -20,7 +20,7 @@ public class StatsClient {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
-    public StatsClient(@Value("http://stats-server") String host) {
+    public StatsClient(@Value("${stats.server.url}") String host) {
         this.webClient = WebClient.create(host);
     }
 

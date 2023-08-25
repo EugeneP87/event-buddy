@@ -31,7 +31,6 @@ public class AdminUserController {
     }
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.OK)
     public Collection<UserDto> getAllUsers(@RequestParam(required = false) List<Long> ids,
                                            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                            @RequestParam(defaultValue = "10") @Positive Integer size) {
@@ -42,7 +41,7 @@ public class AdminUserController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable(name = "userId") Long userId) {
-        log.info("Удаление пользователя c ID " + userId);
+        log.info("Удаление пользователя c ID {}", userId);
         userServiceImpl.deleteUser(userId);
     }
 

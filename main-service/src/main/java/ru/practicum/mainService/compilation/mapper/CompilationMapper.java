@@ -1,5 +1,6 @@
 package ru.practicum.mainService.compilation.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.mainService.compilation.Compilation;
 import ru.practicum.mainService.compilation.dto.CompilationDto;
 import ru.practicum.mainService.compilation.dto.NewCompilationDto;
@@ -11,12 +12,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public final class CompilationMapper {
 
-    private CompilationMapper() {
-    }
-
-    public static Compilation toCompilation(NewCompilationDto newCompilationDto, Set<Event> events) {
+    public Compilation toCompilation(NewCompilationDto newCompilationDto, Set<Event> events) {
         return new Compilation(
                 newCompilationDto.isPinned(),
                 newCompilationDto.getTitle(),
@@ -24,7 +23,7 @@ public final class CompilationMapper {
         );
     }
 
-    public static CompilationDto toCompilationDto(Compilation compilation) {
+    public CompilationDto toCompilationDto(Compilation compilation) {
         return new CompilationDto(
                 compilation.getId(),
                 compilation.getPinned(),
@@ -35,7 +34,7 @@ public final class CompilationMapper {
         );
     }
 
-    public static CompilationDto toCompilationDto(Compilation compilation, List<PartialEventDto> partialEventDtos) {
+    public CompilationDto toCompilationDto(Compilation compilation, List<PartialEventDto> partialEventDtos) {
         return new CompilationDto(
                 compilation.getId(),
                 compilation.getPinned(),
