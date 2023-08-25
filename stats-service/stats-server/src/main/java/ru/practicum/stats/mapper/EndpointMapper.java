@@ -5,11 +5,13 @@ import ru.practicum.stats.EndpointHit;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
-public class EndpointMapper {
+public final class EndpointMapper {
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private EndpointMapper() {
+    }
 
     public static EndpointHitDto toEndpointHitDto(EndpointHit endpointHit) {
         return new EndpointHitDto(
@@ -20,7 +22,7 @@ public class EndpointMapper {
         );
     }
 
-    public static EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) throws DateTimeParseException {
+    public static EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) {
         return new EndpointHit(
                 endpointHitDto.getApp(),
                 endpointHitDto.getUri(),

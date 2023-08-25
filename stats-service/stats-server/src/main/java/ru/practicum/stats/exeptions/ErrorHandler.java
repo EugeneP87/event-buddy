@@ -13,10 +13,12 @@ import java.time.format.DateTimeFormatter;
 @RestControllerAdvice
 public class ErrorHandler {
 
+    private final int URI_PREFIX_LENGTH = 4;
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleIllegalArgumentException(final IllegalArgumentException e, final WebRequest request) {
-        String path = request.getDescription(false).substring(4);
+        String path = request.getDescription(false).substring(URI_PREFIX_LENGTH);
         return createErrorResponse(HttpStatus.BAD_REQUEST, path, e.getMessage());
     }
 
@@ -24,14 +26,14 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMissingServletRequestParameterException(final MissingServletRequestParameterException e,
                                                                        final WebRequest request) {
-        String path = request.getDescription(false).substring(4);
+        String path = request.getDescription(false).substring(URI_PREFIX_LENGTH);
         return createErrorResponse(HttpStatus.BAD_REQUEST, path, e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(final Throwable e, final WebRequest request) {
-        String path = request.getDescription(false).substring(4);
+        String path = request.getDescription(false).substring(URI_PREFIX_LENGTH);
         return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, path, e.getMessage());
     }
 
