@@ -163,16 +163,18 @@ public class EventServiceImpl {
 
     public Collection<EventDto> getAllEvents(String text, List<Long> categories, Boolean paid,
                                              LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                             boolean onlyAvailable, String sort, Integer from, Integer size) {
+                                             boolean onlyAvailable, String sort, Integer from, Integer size, HttpServletRequest request) {
         validateDateRange(rangeStart, rangeEnd);
         List<Event> events;
         PageRequest pageRequest = PageRequest.of(from, size);
         if (onlyAvailable) {
             events = eventRepository.getAvailableEventsWithFilters(
                     text, EventState.PUBLISHED, categories, paid, rangeStart, rangeEnd, pageRequest);
+            statisticService.addView(request);
         } else {
             events = eventRepository.getAllEventsWithFilters(
                     text, EventState.PUBLISHED, categories, paid, rangeStart, rangeEnd, pageRequest);
+            statisticService.addView(request);
         }
         Map<Long, Long> view = statisticService.getStatsEvents(events);
         List<EventDto> result = events.stream()

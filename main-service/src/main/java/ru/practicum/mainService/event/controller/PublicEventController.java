@@ -35,10 +35,11 @@ public class PublicEventController {
                                              @RequestParam(required = false) boolean onlyAvailable,
                                              @RequestParam(required = false) String sort,
                                              @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
-                                             @RequestParam(defaultValue = "10") @Positive Integer size) {
+                                             @RequestParam(defaultValue = "10") @Positive Integer size,
+                                             HttpServletRequest request) {
         log.info("Получение событий по фильтру");
         return eventServiceImpl.getAllEvents(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
-                from, size);
+                from, size, request);
     }
 
     @GetMapping("{id}")
