@@ -25,6 +25,7 @@ public class StatsServiceImpl {
         return EndpointMapper.toEndpointHitDto(statsRepository.save(EndpointMapper.toEndpointHit(endpointHitDto)));
     }
 
+    @Transactional
     public List<ViewStats> getViewStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         validateTimeInterval(start, end);
         List<ViewStats> viewStats;
@@ -44,7 +45,7 @@ public class StatsServiceImpl {
         return viewStats;
     }
 
-    private void validateTimeInterval(LocalDateTime start, LocalDateTime end) {
+    private static void validateTimeInterval(LocalDateTime start, LocalDateTime end) {
         LocalDateTime now = LocalDateTime.now();
         if ((start == null && end.isBefore(now)) || (start != null && end.isBefore(start))) {
             throw new IllegalArgumentException("Некорректный временной интервал");

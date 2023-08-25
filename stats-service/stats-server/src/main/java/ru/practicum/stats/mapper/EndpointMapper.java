@@ -1,17 +1,18 @@
 package ru.practicum.stats.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.common.EndpointHitDto;
 import ru.practicum.stats.EndpointHit;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
-public class EndpointMapper {
+@UtilityClass
+public final class EndpointMapper {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static EndpointHitDto toEndpointHitDto(EndpointHit endpointHit) {
+    public EndpointHitDto toEndpointHitDto(EndpointHit endpointHit) {
         return new EndpointHitDto(
                 endpointHit.getApp(),
                 endpointHit.getUri(),
@@ -20,7 +21,7 @@ public class EndpointMapper {
         );
     }
 
-    public static EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) throws DateTimeParseException {
+    public EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) {
         return new EndpointHit(
                 endpointHitDto.getApp(),
                 endpointHitDto.getUri(),
