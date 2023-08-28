@@ -41,6 +41,9 @@ public class StatsServiceImpl {
                 .map(Event::getCreatedOn)
                 .min(LocalDateTime::compareTo)
                 .orElse(null);
+        if (start == null) {
+            return Collections.emptyMap();
+        }
         List<Long> ids = events.stream()
                 .map(Event::getId)
                 .collect(Collectors.toList());

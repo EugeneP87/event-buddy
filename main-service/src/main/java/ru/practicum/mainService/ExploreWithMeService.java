@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import ru.practicum.client.StatsClient;
 
-// Добрый день, Яков! Спасибо за ревью, постарался исправить замечания
+// Доброе утро, Яков! Направляю на ревью Этап 3 Диплома
 
 @SpringBootApplication
 public class ExploreWithMeService {
