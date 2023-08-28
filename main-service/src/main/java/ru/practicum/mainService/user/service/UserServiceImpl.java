@@ -13,6 +13,7 @@ import ru.practicum.mainService.user.repository.UserRepository;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl {

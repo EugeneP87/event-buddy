@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.event.dto.EventDto;
 import ru.practicum.mainService.event.dto.UpdateEventRequestDto;
 import ru.practicum.mainService.event.service.EventServiceImpl;
@@ -30,9 +31,9 @@ public class AdminEventController {
                                           @RequestParam(required = false) List<String> states,
                                           @RequestParam(required = false) List<Long> categories,
                                           @RequestParam(required = false)
-                                          @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                          @DateTimeFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN) LocalDateTime rangeStart,
                                           @RequestParam(required = false)
-                                          @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+                                          @DateTimeFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN) LocalDateTime rangeEnd,
                                           @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                           @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Получение полной информации обо всех событиях подходящих под переданные условия");

@@ -3,7 +3,6 @@ package ru.practicum.mainService.comment.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.comment.dto.CommentDto;
 import ru.practicum.mainService.comment.dto.NewCommentDto;
@@ -13,7 +12,6 @@ import ru.practicum.mainService.comment.service.CommentServiceImpl;
 import javax.validation.Valid;
 
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users/{userId}/comments")

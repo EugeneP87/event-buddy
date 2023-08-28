@@ -10,14 +10,14 @@ import ru.practicum.common.EndpointHitDto;
 import ru.practicum.common.ViewStats;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static ru.practicum.common.DateAndTimeFormatter.DATE_TIME_FORMATTER;
 
 @Service
 public class StatsClient {
 
     private final WebClient webClient;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     public StatsClient(@Value("${stats.server.url}") String host) {

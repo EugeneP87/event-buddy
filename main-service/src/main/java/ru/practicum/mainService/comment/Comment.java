@@ -1,16 +1,16 @@
 package ru.practicum.mainService.comment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.event.Event;
 import ru.practicum.mainService.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -31,19 +31,12 @@ public class Comment {
     @JoinColumn(name = "event_id")
     private Event event;
     @Column(name = "created_on")
+    @CreationTimestamp
     private LocalDateTime created;
     @Column(name = "published_on")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime publishedOn;
     @Enumerated(EnumType.STRING)
     private CommentState state;
-
-    public Comment(User author, String text, Event event, LocalDateTime created, CommentState state) {
-        this.author = author;
-        this.text = text;
-        this.event = event;
-        this.created = created;
-        this.state = state;
-    }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public final class ErrorResponse {
 
     private String status;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime timestamp;
     private String path;
     private String error;

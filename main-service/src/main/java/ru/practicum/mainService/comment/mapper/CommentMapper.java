@@ -8,29 +8,26 @@ import ru.practicum.mainService.comment.dto.NewCommentDto;
 import ru.practicum.mainService.event.Event;
 import ru.practicum.mainService.user.User;
 
-import java.time.LocalDateTime;
-
 @UtilityClass
 public class CommentMapper {
 
     public CommentDto toCommentDto(Comment comment) {
-        return new CommentDto(
-                comment.getId(),
-                comment.getText(),
-                comment.getAuthor().getName(),
-                comment.getCreated(),
-                comment.getState()
-        );
+        return CommentDto.builder()
+                .id(comment.getId())
+                .text(comment.getText())
+                .author(comment.getAuthor().getName())
+                .created(comment.getCreated())
+                .state(comment.getState())
+                .build();
     }
 
     public Comment toComment(NewCommentDto commentDto, User user, Event event) {
-        return new Comment(
-                user,
-                commentDto.getText(),
-                event,
-                LocalDateTime.now(),
-                CommentState.PENDING
-        );
+        return Comment.builder()
+                .author(user)
+                .text(commentDto.getText())
+                .event(event)
+                .state(CommentState.PENDING)
+                .build();
     }
 
 }

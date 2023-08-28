@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl {
@@ -50,6 +51,7 @@ public class CommentServiceImpl {
         updateStatusComment(comment, partialCommentDto.getState());
         return CommentMapper.toCommentDto(commentRepository.save(comment));
     }
+
 
     public CommentDto getCommentByUser(Long userId, Long commentId) {
         getUserById(userId);
