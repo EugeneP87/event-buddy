@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.mainService.category.dto.CategoryDto;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.event.EventState;
 import ru.practicum.mainService.location.dto.LocationDto;
 import ru.practicum.mainService.user.dto.PartialUserDto;
@@ -20,7 +21,7 @@ public class EventDto {
     private String annotation;
     private CategoryDto category;
     private String description;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
     private LocationDto location;
     private Boolean paid;
@@ -28,9 +29,9 @@ public class EventDto {
     private Boolean requestModeration;
     private EventState state;
     private String title;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime publishedOn;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime createdOn;
     private PartialUserDto initiator;
     private Long confirmedRequests;

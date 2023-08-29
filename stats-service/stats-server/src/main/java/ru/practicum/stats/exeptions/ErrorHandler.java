@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static ru.practicum.common.DateAndTimeFormatter.DATE_TIME_FORMATTER;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -40,7 +41,7 @@ public class ErrorHandler {
     private ErrorResponse createErrorResponse(HttpStatus status, String path, String message) {
         return new ErrorResponse(
                 status.value(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                LocalDateTime.now().format(DATE_TIME_FORMATTER),
                 path,
                 message
         );

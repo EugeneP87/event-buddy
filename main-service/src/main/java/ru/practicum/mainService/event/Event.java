@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.mainService.category.Category;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.location.Location;
 import ru.practicum.mainService.user.User;
 
@@ -29,7 +30,7 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
     @Column(name = "created_on")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime createdOn;
     @Column(name = "description")
     private String description;
@@ -46,7 +47,7 @@ public class Event {
     @Column(name = "participant_limit")
     private long participantLimit;
     @Column(name = "published_on")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime publishedOn;
     @Column(name = "request_moderation")
     private Boolean requestModeration;

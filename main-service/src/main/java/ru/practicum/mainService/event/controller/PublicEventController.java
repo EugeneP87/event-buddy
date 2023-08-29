@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.event.dto.EventDto;
 import ru.practicum.mainService.event.service.EventServiceImpl;
 
@@ -31,9 +32,9 @@ public class PublicEventController {
                                              @RequestParam(required = false) List<Long> categories,
                                              @RequestParam(required = false) Boolean paid,
                                              @RequestParam(required = false)
-                                             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                             @DateTimeFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN) LocalDateTime rangeStart,
                                              @RequestParam(required = false)
-                                             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+                                             @DateTimeFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN) LocalDateTime rangeEnd,
                                              @RequestParam(required = false) boolean onlyAvailable,
                                              @RequestParam(required = false) String sort,
                                              @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,

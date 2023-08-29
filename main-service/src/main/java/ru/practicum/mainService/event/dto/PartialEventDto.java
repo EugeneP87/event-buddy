@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.mainService.category.dto.CategoryDto;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.user.dto.PartialUserDto;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public class PartialEventDto {
     private String annotation;
     private CategoryDto category;
     private Long confirmedRequests;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
     private PartialUserDto initiator;
     private Boolean paid;

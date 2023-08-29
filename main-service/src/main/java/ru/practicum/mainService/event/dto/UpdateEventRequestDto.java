@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.mainService.common.DateAndTimeFormatter;
 import ru.practicum.mainService.event.EventStateAction;
 import ru.practicum.mainService.location.dto.LocationDto;
 
@@ -21,7 +22,7 @@ public class UpdateEventRequestDto {
     private Long category;
     @Size(min = 20, max = 7000)
     private String description;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateAndTimeFormatter.DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
     private LocationDto location;
     private Boolean paid;
